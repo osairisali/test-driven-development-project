@@ -1,15 +1,14 @@
 /* eslint-disable class-methods-use-this */
 class FavoriteMovieSearchPresenter {
-  constructor({ favoriteMovies }) {
+  constructor({ favoriteMovies, view }) {
+    this._view = view;
     this._listenToSearchRequestByUser();
     this._favoriteMovies = favoriteMovies;
   }
 
   _listenToSearchRequestByUser() {
-    this._queryElement = document.querySelector('#query');
-    this._queryElement.addEventListener('change', (event) => {
-      console.log('log event from _listenToSearchRequestByUser: ', event);
-      this._searchMovies(event.target.value);
+    this._view.runWhenUserIsSearching((latestQuery) => {
+      this._searchMovies(latestQuery);
     });
   }
 
@@ -27,20 +26,7 @@ class FavoriteMovieSearchPresenter {
   }
 
   _showFoundMovies(movies) {
-    let html;
-    if (movies.length > 0) {
-      html = movies.reduce(
-        (carry, movie) => carry.concat(`<li class="movie"><span class="movie__title">${movie.title || '-'}</span></li>`),
-        '',
-      );
-    } else {
-      html = '<div class="movies__not__found">Film tidak ditemukan</div>';
-    }
-
-    document.querySelector('.movies').innerHTML = html;
-
-    document.getElementById('movie-search-container')
-      .dispatchEvent(new Event('movies:searched:updated'));
+    this._view.showMovies(movies);
   }
 
   get latestQuery() {

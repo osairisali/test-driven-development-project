@@ -1,9 +1,12 @@
+/* eslint-disable class-methods-use-this */
 import FavoriteMovieSearchPresenter from '../src/scripts/views/pages/favorite-movie-search-presenter';
 import FavoriteMovieIdb from '../src/scripts/data/favorite-movie-idb';
+import FavoriteMovieSearchView from '../src/scripts/views/pages/liked-movies/favorite-movie-search-view';
 
 describe('searching movies', () => {
   let presenter;
   let favoriteMovies;
+  let view;
 
   const searchMovies = (query) => {
     const queryElement = document.querySelector('#query');
@@ -12,15 +15,9 @@ describe('searching movies', () => {
   };
 
   const setMovieSearchContainer = () => {
-    document.body.innerHTML = `
-    <div id="movie-search-container">
-    <input id="query" type="text">
-    <div class="movie-result-container">
-    <ul class="movies">
-    </ul>
-    </div>
-    </div>
-    `;
+    view = new FavoriteMovieSearchView();
+    console.log('view instance: ', view);
+    document.body.innerHTML = view.getTemplate();
   };
 
   const constructPresenter = () => {
@@ -28,7 +25,7 @@ describe('searching movies', () => {
     // spyOn(FavoriteMovieIdb, 'searchMovies');
     favoriteMovies = spyOnAllFunctions(FavoriteMovieIdb);
     // presenter = new FavoriteMovieSearchPresenter({ favoriteMovies: FavoriteMovieIdb });
-    presenter = new FavoriteMovieSearchPresenter({ favoriteMovies });
+    presenter = new FavoriteMovieSearchPresenter({ favoriteMovies, view });
   };
 
   beforeEach(() => {
