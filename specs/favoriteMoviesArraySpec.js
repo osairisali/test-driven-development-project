@@ -24,9 +24,22 @@ const FavoriteMovieArray = {
 
     favoriteMovies = favoriteMovies.filter((movie) => movie.id !== id);
   },
+  searchMovies(query) {
+    return this.getAllMovies()
+      .filter((movie) => {
+        const loweredCaseMovieTitle = (movie.title || '-').toLowerCase();
+        const jammedMovieTitle = loweredCaseMovieTitle.replace(/\s/g, '');
+
+        const loweredCaseQuery = query.toLowerCase();
+        const jammedQuery = loweredCaseQuery.replace(/\s/g, '');
+
+        return jammedMovieTitle.indexOf(jammedQuery) !== -1;
+      });
+  },
 };
 
-describe('favorite movie array contrat test implementation', () => {
+// xdescribe is used to prevent test execution in xdescribe and in xit
+describe('favorite movie array contract test implementation', () => {
   afterEach(() => (favoriteMovies = []));
 
   itActsAsFavoriteMovieModel(FavoriteMovieArray);
