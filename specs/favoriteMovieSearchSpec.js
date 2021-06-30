@@ -58,7 +58,7 @@ describe('searching movies', () => {
     });
 
     it('should show - when the movie returned does not contain a title', (done) => {
-      document.querySelector('#movie-search-container').addEventListener('movies:searched:updated', () => {
+      document.querySelector('#movies').addEventListener('movies:updated', () => {
         const movieTitles = document.querySelectorAll('.movie__title');
         expect(movieTitles.item(0).textContent).toEqual('-');
         done();
@@ -72,9 +72,9 @@ describe('searching movies', () => {
     it('should show the movies found by Favorite Movies', (done) => {
     // custom event firing to catch asynchronous .movie elements
     // this happens as the test is finished first while Presenster is not done yet
-      document.getElementById('movie-search-container')
-        .addEventListener('movies:searched:updated', () => {
-          expect(document.querySelectorAll('.movie').length).toEqual(3);
+      document.getElementById('movies')
+        .addEventListener('movies:updated', () => {
+          expect(document.querySelectorAll('.movie-item').length).toEqual(3);
           done();
         });
 
@@ -88,7 +88,7 @@ describe('searching movies', () => {
     });
 
     it('should show the name of the movies found by Favorite Movies', (done) => {
-      document.getElementById('movie-search-container').addEventListener('movies:searched:updated', () => {
+      document.getElementById('movies').addEventListener('movies:updated', () => {
         const movieTitles = document.querySelectorAll('.movie__title');
         expect(movieTitles.item(0).textContent).toEqual('film abc');
         expect(movieTitles.item(1).textContent).toEqual('ada juga film abcde');
@@ -136,8 +136,8 @@ describe('searching movies', () => {
 
   describe('when no favorite movies could be found', () => {
     it('should show the empty message', (done) => {
-      document.querySelector('#movie-search-container').addEventListener('movies:searched:updated', () => {
-        expect(document.querySelectorAll('.movies__not__found').length).toEqual(1);
+      document.querySelector('#movies').addEventListener('movies:updated', () => {
+        expect(document.querySelectorAll('.movie-item__not__found').length).toEqual(1);
         done();
       });
 

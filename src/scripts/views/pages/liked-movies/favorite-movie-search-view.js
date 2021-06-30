@@ -1,13 +1,17 @@
 /* eslint-disable class-methods-use-this */
+import { createMovieItemTemplate } from '../../templates/template-creator';
+
 class FavoriteMovieSearchView {
   getTemplate() {
-    return `<div id="movie-search-container">
-      <input id="query" type="text">
-      <div class="movie-result-container">
-          <ul class="movies">
-          </ul>
-      </div>
-      </div>`;
+    return `
+    <div class="content">
+    <input id="query" type="text">
+    <h2 class="content__heading">Your Liked Movie</h2>
+            <div id="movies" class="movies">
+               
+            </div>
+    </div>
+    `;
   }
 
   runWhenUserIsSearching(callback) {
@@ -16,21 +20,20 @@ class FavoriteMovieSearchView {
     });
   }
 
-  showMovies(movies) {
+  showFavoriteMovies(movies = []) {
     let html;
-    if (movies.length > 0) {
-      html = movies.reduce(
-        (carry, movie) => carry.concat(`<li class="movie"><span class="movie__title">${movie.title || '-'}</span></li>`),
-        '',
-      );
+    if (movies.length) {
+      html = movies.reduce((carry, movie) => carry.concat(createMovieItemTemplate(movie)), '');
     } else {
-      html = '<div class="movies__not__found">Film tidak ditemukan</div>';
+      html = this._getEmptyMovieTemplate();
     }
+    document.getElementById('movies').innerHTML = html;
 
-    document.querySelector('.movies').innerHTML = html;
+    document.querySelector('#movies').dispatchEvent(new Event('movies:updated'));
+  }
 
-    document.getElementById('movie-search-container')
-      .dispatchEvent(new Event('movies:searched:updated'));
+  _getEmptyMovieTemplate() {
+    return '<div class="movie-item__not__found">Tidak ada film untuk ditampilkan</div>';
   }
 }
 
