@@ -32,7 +32,7 @@ describe('showing all favorite movies', () => {
 
       expect(favoriteMovies.getAllMovies).toHaveBeenCalledTimes(1);
     });
-    
+
     it('should show the information that no movies have been liked', (done) => {
       document.getElementById('movies').addEventListener('movies:updated', () => {
         expect(document.querySelectorAll('.movie-item__not__found').length)
