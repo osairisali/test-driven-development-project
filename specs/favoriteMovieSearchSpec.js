@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import FavoriteMovieSearchPresenter from '../src/scripts/views/pages/favorite-movie-search-presenter';
+import FavoriteMovieSearchPresenter from '../src/scripts/views/pages/liked-movies/favorite-movie-search-presenter';
 import FavoriteMovieIdb from '../src/scripts/data/favorite-movie-idb';
 import FavoriteMovieSearchView from '../src/scripts/views/pages/liked-movies/favorite-movie-search-view';
 
